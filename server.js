@@ -10,6 +10,10 @@ import React from 'react';
 import ReactDom from 'react-dom/server';
 import Component from './src/app/entry';
 
+import { RoutingContext, match } from 'react-router';
+import createLocation from 'history/lib/createLocation';
+import routes from './src/shared/routes';
+
 let app = express();
 const port = 3000;
 
@@ -19,22 +23,30 @@ app.use(webpackHotMiddleware(compiler))
 
 app.use(express.static(path.join(__dirname, 'dist')));
 
-app.get('/', (request, response) => {
+app.use((request, response) => {
+  const location = createLocation(request.url);
+  match({routes, location}, (err, redirectLocation, renderProps) => {
+    if(err){
+      console.error(err);
+      return response.status(500).end('Internal server error.');
+    }
+    if(!renderProps) return response.status(404).end('Not found.');
+    const InitialComponent = (
+      <RoutingContext {...renderProps} />
+    );
+    const componentHTML = ReactDom.renderToString(InitialComponent);
 
-  let props = {
-    styles : "/styles.css",
-    scripts: ["/bundle.js"]
-  }
+    const props = {
+      styles : "/styles.css",
+      scripts: ["/bundle.js"],
+      componentHTML: componentHTML
+    }
 
-  let element = React.createFactory(Component);
-  let markup = ReactDom.renderToStaticMarkup(element(props));
-  response.send(markup);
-});
+    const element = React.createFactory(Component);
+    const markup = ReactDom.renderToStaticMarkup(element(props));
+    response.end(markup);
 
-app.get('*', (request, response) => {
-    response.json({
-        'route': 'Page not found!'
-    });
+  })
 });
 
 app.listen(port, (error) => {

@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import App from './components/app';
 
 export default class Entry extends React.Component {
 
@@ -11,9 +10,11 @@ export default class Entry extends React.Component {
 
 	render(){
 
-		let scripts = this.props.scripts.map((script, index)=>{
+		const scripts = this.props.scripts.map((script, index)=>{
 			return (<script key={index} src={script}></script>)
 		});
+
+		const innerHtml = {__html: this.props.componentHTML};
 
 		return (<html>
 				<head>
@@ -30,9 +31,7 @@ export default class Entry extends React.Component {
           <link href={this.props.styles} rel="stylesheet" type="text/css" />
 				</head>
 				<body>
-					<div id="app">
-						<App />
-					</div>
+					<div id="app" dangerouslySetInnerHTML={innerHtml}></div>
           {scripts}
 				</body>
 		</html>);
