@@ -8,7 +8,7 @@ var config = require('./webpack.config');
 
 import React from 'react';
 import ReactDom from 'react-dom/server';
-import Component from './src/app/entry';
+import Component from './src/entry';
 
 import { RoutingContext, match } from 'react-router';
 import createLocation from 'history/lib/createLocation';
