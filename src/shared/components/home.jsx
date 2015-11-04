@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 export default class Home extends React.Component {
   render() {
     const { moves, dispatch } = this.props;
-    debugger;
+    
     return (
       <div id="hit-list">
         <MovesView moves={moves}
