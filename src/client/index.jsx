@@ -11,12 +11,12 @@ import { fromJS } from 'immutable';
 const history = createBrowserHistory();
 
 let initialState = window.__INITIAL_STATE__;
-Object
+/*Object
   .keys(initialState)
   .forEach(key => {
     initialState[key] = fromJS(initialState[key]);
   });
-
+*/
 const reducer = combineReducers(reducers);
 const store = createStore(reducer, initialState);
 

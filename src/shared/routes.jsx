@@ -2,10 +2,10 @@ import React from 'react';
 import {Route} from 'react-router';
 
 import App from './components/app';
-import Home from './components/home';
+import Game from './components/game';
 
 export default (
   <Route name="app" component={App} path="/">
-    <Route component={Home} path="home"></Route>
+    <Route component={Game} path="game"></Route>
   </Route>
 )

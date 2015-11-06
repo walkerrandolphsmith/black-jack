@@ -1,1 +1,1 @@
-export {default as moves} from './moves';
+export {default as game} from './game';
