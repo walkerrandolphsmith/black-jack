@@ -25,7 +25,7 @@ export default class Deck extends React.Component {
     });
 
     return (
-      <div id="deck" style={deckStyle}>{deckMarkup}</div>
+      <div id="deck" style={deckStyle}>{card}</div>
     )
   }
 }
