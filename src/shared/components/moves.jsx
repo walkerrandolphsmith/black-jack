@@ -8,10 +8,11 @@ export default class Moves extends React.Component {
       this.props.hit();
   }
   render() {
+    let {canHit} = this.props;
     return (
       <div id="moves">
-        <button onClick={this.stay}>Stay!</button>
-        <button onClick={this.hit}>HIT!</button>
+        <button disabled={!canHit} onClick={this.stay}>Stay!</button>
+        <button disabled={!canHit} onClick={this.hit}>HIT!</button>
       </div>
     )
   }
