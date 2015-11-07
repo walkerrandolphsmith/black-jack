@@ -1,87 +1,84 @@
 import Immutable from 'immutable';
-
+import _ from 'lodash';
 //const INITIAL_STATE = new Immutable.List();
 
-let deck = [];
-['s', 'h', 'd', 'c'].forEach((suite, i) => {
-  for(var j = 0; j < 13; j++){
-    deck.push({suite: suite, value: j});
-  };
-});
+const deck = ['s', 'h', 'd', 'c'].reduce((d, suite) => {
+  return d.concat(_.times(13, i => { return {suite: suite, value: i}; }));
+}, []);
 
-let playerOne = {
-  pid: 0,
-  hand: [],
-  canHit: true,
-  total: 0
-};
-let playerTwo = {
-  pid: 1,
-  hand: [],
-  canHit: true,
-  total: 0
-};
-
-let players = [playerOne, playerTwo];
+const playerOne = createPlayer(0);
+const playerTwo = createPlayer(1);
 
 const INITIAL_STATE = {
-  players: players,
+  players: [playerOne, playerTwo],
   deck: deck,
-  activeGame: true
+  activeGame: true,
+  winner: false
 };
 
 export default function reducer(state = INITIAL_STATE, action) {
   switch(action.type){
-    case 'HIT':
-      console.log("REDUCER", "HIT", state);
-      state = hit(0, state);
-      state = hit(1, state);
-      console.log("AFTER", state);
-      return state;
-    case 'STAY':
-      console.log("REDUCER", "STAY", state);
-      state = stay(0, state);
-      state = stay(1, state);
-      console.log("AFTER", state);
-      return state;
+    case 'HIT': return hit(0, state);
+    case 'STAY': return stay(0, state);
   }
   return state;
 }
 
 function hit(playerId, state){
-  state.players[playerId].hand.push(state.deck[3]);
-  state = calculateScore(playerId, state);
-  if(state.players[playerId].total > 21)
-    state = hold(playerId, state);
-  state = endGame(state);
-  return state;
+
+  state.players.forEach(player => { state.deck = _.difference(state.deck, player.hand); });
+  let randomCard = _.sample(state.deck);
+
+  state.players[playerId].hand.push(randomCard);
+
+  let score = _.sum(state.players[playerId].hand, card => { return card.value; });
+
+  let playerOne = {
+    pid : playerId,
+    hand : state.players[playerId].hand,
+    canHit : score < 21,
+    total : (playerId === 0) ? score : state.players[0].total
+  }
+  let players = [playerOne, state.players[1]];
+  let activeGame = isGameActive(players);
+
+  let winner = state.players.sort((x,y) => { return x.total < y.total; })[0];
+
+  return {
+    players: players,
+    deck: state.deck,
+    activeGame: activeGame,
+    winner: winner
+  }
 }
 
 function stay(playerId, state){
-  state = hold(playerId, state);
-  state = endGame(state);
-  return state;
+  let playerOne = {
+    pid : 0,
+    hand : state.players[0].hand,
+    canHit : (playerId === 0) ? false : state.players[0].canHit,
+    total : state.players[0].total
+  }
+  let players = [playerOne, state.players[1]];
+  let activeGame = isGameActive(players);
+
+  return {
+    players: players,
+    deck: state.deck,
+    activeGame: activeGame,
+    winner: state.winner
+  };
 }
 
-function hold(playerId, state){
-  state.players[playerId].canHit = false;
-  return state;
+function createPlayer(pid){
+  return {
+    pid: pid,
+    hand: [],
+    canHit: true,
+    total: 0
+  };
 }
 
-function endGame(state){
-  let shouldTerminateGame = true;
-  state.players.forEach(player => {
-    if(player.canHit) shouldTerminateGame = false;
-  });
-  state.activeGame = !shouldTerminateGame;
-  return state;
-}
-
-function calculateScore(playerId, state){
-  let score = 0;
-  state.players[playerId].hand.forEach(card => {
-      score += card.value;
-  });
-  state.players[playerId].total = score;
-  return state;
+function isGameActive(players){
+  return !players.every(player => { return !player.canHit; });
 }
