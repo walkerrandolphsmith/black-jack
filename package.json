@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "./node_modules/.bin/babel-node ./runner.js",
-    "dev": "npm run start & webpack-dev-server --progress --color",
+    "dev": "npm run assets & npm run start & webpack-dev-server --progress --color",
     "build": "NODE_ENV=production webpack --progress --color -p --config webpack.prod.config.js",
     "assets": "cp -r ./src/assets/ ./dist/assets/"
   },
