@@ -1,7 +1,7 @@
 const SUIT = {
   club: {
     name: 'club',
-    symbol: '♣',
+    symbol: '&#9827;',
     color: 'black'
   },
   diamond: {
@@ -99,9 +99,11 @@ const RANKS = [
   RANK.king
 ];
 
-export default const PlayingCards = {
+const PlayingCards = {
   RANK: RANK,
   SUIT: SUIT,
   RANKS: RANKS,
   SUITS: SUITS
 };
+
+export default PlayingCards;
