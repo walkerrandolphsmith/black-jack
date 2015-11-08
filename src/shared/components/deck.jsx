@@ -1,31 +1,19 @@
 import React from 'react';
+import Card from './card';
 
 export default class Deck extends React.Component {
   render() {
-    const { cards } = this.props;
+    const {SUITS, RANKS} = this.props.cards;
 
-    let suits = [{symbol}];
-
-    let card = suits.map((suit, index) => {
+    let cards = SUITS.map((suit, index) => {
+      let rank = RANKS[index];
       return (
-        <div key={index} class="card-three">
-          <div class="corner top">
-            <span class="number">3</span>
-            <span>{suit.symbol}</span>
-          </div>
-          <span class="suit top_center">{suit.symbol}</span>
-          <span class="suit middle_center">{suit.symbol}</span>
-          <span class="suit bottom_center">{suit.symbol}</span>
-          <div class="corner bottom">
-            <span class="number">3</span>
-            <span>{suit.symbol}</span>
-          </div>
-        </div>
+        <Card key={index} suit={suit} rank={rank} id={index} />
       )
     });
 
     return (
-      <div id="deck" style={deckStyle}>{card}</div>
+      <div id="deck">{cards}</div>
     )
   }
 }
