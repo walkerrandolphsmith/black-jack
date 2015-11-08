@@ -1,5 +1,6 @@
 import Immutable from 'immutable';
 import _ from 'lodash';
+import cards from './../constants/deck';
 //const INITIAL_STATE = new Immutable.List();
 
 const deck = ['s', 'h', 'd', 'c'].reduce((d, suite) => {
@@ -13,7 +14,8 @@ const INITIAL_STATE = {
   players: [playerOne, playerTwo],
   deck: deck,
   activeGame: true,
-  winner: false
+  winner: false,
+  cards: cards
 };
 
 export default function reducer(state = INITIAL_STATE, action) {
@@ -48,7 +50,8 @@ function hit(playerId, state){
     players: players,
     deck: state.deck,
     activeGame: activeGame,
-    winner: winner
+    winner: winner,
+    cards: cards
   }
 }
 
@@ -66,7 +69,8 @@ function stay(playerId, state){
     players: players,
     deck: state.deck,
     activeGame: activeGame,
-    winner: state.winner
+    winner: state.winner,
+    cards: cards
   };
 }
 
