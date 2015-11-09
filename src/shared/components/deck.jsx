@@ -6,7 +6,7 @@ export default class Deck extends React.Component {
     const {SUITS, RANKS} = this.props.cards;
 
     let cards = SUITS.map((suit, index) => {
-      let rank = RANKS[index];
+      let rank = RANKS[(RANKS.length -1) - index];
       return (
         <Card key={index} suit={suit} rank={rank} id={index} />
       )
