@@ -29,7 +29,7 @@ function hit(playerId, state){
 
   state.players[playerId].hand.push(randomCard);
 
-  let score = _.sum(state.players[playerId].hand, card => { return card.value; });
+  let score = _.sum(state.players[playerId].hand, card => { return card.rank.value; });
 
   let playerOne = {
     pid : playerId,
