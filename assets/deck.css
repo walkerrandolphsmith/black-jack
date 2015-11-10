@@ -8,6 +8,7 @@
 .card {
   background-color: #fff;
   font-family: 'Suit-Regular', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 8px;
   -moz-border-radius: 0.8em;
   -webkit-border-radius: 0.8em;
   border-radius: 0.8em;
