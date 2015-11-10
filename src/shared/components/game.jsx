@@ -13,8 +13,6 @@ export default class Game extends React.Component {
 
     return (
       <div id="game">
-        <div>Active Game: {game.activeGame ? 'true' : 'false'}</div>
-        <Deck cards={game.deck} />
         <Player game={game} {...bindActionCreators(MoveActions, dispatch)} />
       </div>
     );
