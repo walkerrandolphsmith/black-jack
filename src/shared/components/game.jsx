@@ -10,12 +10,11 @@ import { connect } from 'react-redux';
 export default class Game extends React.Component {
   render() {
     const { game, dispatch } = this.props;
-    const cards = game.cards;
 
     return (
       <div id="game">
         <div>Active Game: {game.activeGame ? 'true' : 'false'}</div>
-        <Deck cards={cards} />
+        <Deck cards={game.deck} />
         <Player game={game} {...bindActionCreators(MoveActions, dispatch)} />
       </div>
     );

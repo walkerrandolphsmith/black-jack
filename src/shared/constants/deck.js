@@ -24,55 +24,68 @@ const SUIT = {
 const RANK = {
   ace: {
     name: 'ace',
-    symbol: 'A'
+    symbol: 'A',
+    value: 14
   },
   two: {
     name: 'two',
-    symbol: '2'
+    symbol: '2',
+    value: 2
   },
   three: {
     name: 'three',
-    symbol: '3'
+    symbol: '3',
+    value: 3
   },
   four: {
     name: 'four',
-    symbol: '4'
+    symbol: '4',
+    value: 4
   },
   five: {
     name: 'five',
-    symbol: '5'
+    symbol: '5',
+    value: 5
   },
   six: {
     name: 'six',
-    symbol: '6'
+    symbol: '6',
+    value: 6
   },
   seven: {
     name: 'seven',
-    symbol: '7'
+    symbol: '7',
+    value: 7
   },
   eight: {
     name: 'eight',
-    symbol: '8'
+    symbol: '8',
+    value: 8
   },
   nine: {
     name: 'nine',
-    symbol: '9'
+    symbol: '9',
+    value: 9
   },
   ten: {
     name: 'ten',
-    symbol: '10'
+    symbol: '10',
+    value: 10
   },
   jack: {
     name: 'jack',
-    symbol: 'J'
+    symbol: 'J',
+    value: 11
   },
   queen: {
     name: 'queen',
-    symbol: 'Q'
+    symbol: 'Q',
+    value: 12
   },
   king: {
     name: 'king',
-    symbol: 'K'
+    symbol: 'K',
+    value: 13
   }
 };
 

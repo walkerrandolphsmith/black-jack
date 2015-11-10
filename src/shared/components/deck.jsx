@@ -3,12 +3,9 @@ import Card from './card';
 
 export default class Deck extends React.Component {
   render() {
-    const {SUITS, RANKS} = this.props.cards;
-
-    let cards = SUITS.map((suit, index) => {
-      let rank = RANKS[(RANKS.length -1) - index];
+    let cards = this.props.cards.map((card, index) => {
       return (
-        <Card key={index} suit={suit} rank={rank} id={index} />
+        <Card key={index} id={index} suit={card.suit} rank={card.rank} />
       )
     });
 

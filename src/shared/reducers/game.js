@@ -3,10 +3,7 @@ import _ from 'lodash';
 import cards from './../constants/deck';
 //const INITIAL_STATE = new Immutable.List();
 
-const deck = ['s', 'h', 'd', 'c'].reduce((d, suite) => {
-  return d.concat(_.times(13, i => { return {suite: suite, value: i}; }));
-}, []);
-
+const deck = cartesianProduct(cards.SUITS, cards.RANKS);
 const playerOne = createPlayer(0);
 const playerTwo = createPlayer(1);
 
@@ -14,8 +11,7 @@ const INITIAL_STATE = {
   players: [playerOne, playerTwo],
   deck: deck,
   activeGame: true,
-  winner: false,
-  cards: cards
+  winner: false
 };
 
 export default function reducer(state = INITIAL_STATE, action) {
@@ -50,8 +46,7 @@ function hit(playerId, state){
     players: players,
     deck: state.deck,
     activeGame: activeGame,
-    winner: winner,
-    cards: cards
+    winner: winner
   }
 }
 
@@ -69,9 +64,19 @@ function stay(playerId, state){
     players: players,
     deck: state.deck,
     activeGame: activeGame,
-    winner: state.winner,
-    cards: cards
+    winner: state.winner
   };
+}
+
+function cartesianProduct(){
+  return _.reduce(arguments, (a, b) => {
+      return _.flatten(_.map(a, x => {
+          return _.map(b, (y, i) => {
+            //??
+            return {suit: x['rank'], rank: y};
+          });
+      }), false);
+  }, [[]]);
 }
 
 function createPlayer(pid){
