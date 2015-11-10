@@ -1,4 +1,5 @@
 import React from 'react';
+import Card from './card';
 import MovesView from './moves';
 
 export default class Player extends React.Component {
@@ -9,7 +10,7 @@ export default class Player extends React.Component {
 
     let cards = player.hand.map((card, j) => {
       return (
-        <div key={j}>{card.suite} : {card.value}</div>
+        <Card key={j} id={j} suit={card.suit} rank={card.rank} />
       );
     });
     let playerId = `player-${player.pid}`;
