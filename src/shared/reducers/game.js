@@ -57,7 +57,7 @@ function hit(playerId, state){
     pid : playerId,
     hand : state.players[playerId].hand,
     canHit : score < 21,
-    total : (playerId === 0) ? score : state.players[0].total
+    total : score
   }
 
   let players = [];
