@@ -1,5 +1,5 @@
 import React from 'react';
-import Deck from './deck';
+import Deck from './cards/deck';
 import Player from './player';
 import { bindActionCreators } from 'redux';
 import * as MoveActions from './../actions/move';

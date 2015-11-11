@@ -1,6 +1,5 @@
 import React from 'react';
 import Card from './card';
-import MovesView from './moves';
 
 export default class Player extends React.Component {
   render() {
