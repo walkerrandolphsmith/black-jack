@@ -1,5 +1,5 @@
 import React from 'react';
-import Card from './card';
+import Card from './card-front';
 
 export default class Deck extends React.Component {
   render() {
