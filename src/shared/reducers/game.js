@@ -16,10 +16,32 @@ const INITIAL_STATE = {
 
 export default function reducer(state = INITIAL_STATE, action) {
   switch(action.type){
-    case 'HIT': return hit(0, state);
-    case 'STAY': return stay(0, state);
+    case 'HIT': return dealer(1, hit(0, state));
+    case 'STAY': return dealer(1, stay(0, state));
   }
   return state;
+}
+
+function dealer(dealerId, state) {
+  console.log("DEALER", dealerId, state);
+
+  //Determine to hit or stay
+  const score = state.players[dealerId].total;
+  const opponentScore = state.players[0].total;
+  const opponentCanHit = state.players[0].canHit;
+
+  const numberOfCardsThatBust = state.deck.reduce((x, y) => {
+    return (score + y > 21) ? x + 1 : x;
+  }, 0);
+
+  const numberOfCardsThatDontBust = state.deck.reduce((x, y) => {
+    return (score + y <= 21) ? x + 1 : x;
+  }, 0);
+
+  if(score === 21) return stay(dealerId, state);
+  else if(!opponentCanHit && score > opponentScore) return stay(dealerId, state);
+  else if(numberOfCardsThatBust > numberOfCardsThatDontBust) return stay(dealerId, state);
+  else return hit(dealerId, state);
 }
 
 function hit(playerId, state){
@@ -31,13 +53,22 @@ function hit(playerId, state){
 
   let score = _.sum(state.players[playerId].hand, card => { return card.rank.value; });
 
-  let playerOne = {
+  let player = {
     pid : playerId,
     hand : state.players[playerId].hand,
     canHit : score < 21,
     total : (playerId === 0) ? score : state.players[0].total
   }
-  let players = [playerOne, state.players[1]];
+
+  let players = [];
+  if(playerId === 0){
+    players.push(player);
+    players.push(state.players[1]);
+  }else{
+    players.push(state.players[0]);
+    players.push(player);
+  }
+
   let activeGame = isGameActive(players);
 
   let winner = state.players.sort((x,y) => { return x.total < y.total; })[0];
@@ -51,13 +82,22 @@ function hit(playerId, state){
 }
 
 function stay(playerId, state){
-  let playerOne = {
+  let player = {
     pid : 0,
     hand : state.players[0].hand,
     canHit : (playerId === 0) ? false : state.players[0].canHit,
     total : state.players[0].total
   }
-  let players = [playerOne, state.players[1]];
+
+  let players = [];
+  if(playerId === 0){
+    players.push(player);
+    players.push(state.players[1]);
+  }else{
+    players.push(state.players[0]);
+    players.push(player);
+  }
+
   let activeGame = isGameActive(players);
 
   return {
