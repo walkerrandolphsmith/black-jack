@@ -86,7 +86,7 @@ function stay(playerId, state){
     pid : 0,
     hand : state.players[0].hand,
     canHit : (playerId === 0) ? false : state.players[0].canHit,
-    total : state.players[0].total
+    total : state.players[playerId].total
   }
 
   let players = [];
