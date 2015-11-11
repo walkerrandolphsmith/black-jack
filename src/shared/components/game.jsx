@@ -13,7 +13,7 @@ export default class Game extends React.Component {
 
     return (
       <div id="game">
-        <Player game={game} {...bindActionCreators(MoveActions, dispatch)} />
+        <Player player={game.players[0]} {...bindActionCreators(MoveActions, dispatch)} />
       </div>
     );
   }

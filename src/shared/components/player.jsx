@@ -5,9 +5,8 @@ import MovesView from './moves';
 
 export default class Player extends React.Component {
   render() {
-    const { game, dispatch } = this.props;
+    const { player, dispatch } = this.props;
 
-    let player = game.players[0];
     let playerId = `player-${player.pid}`;
 
     return (
