@@ -41,7 +41,12 @@ function dealer(dealerId, state) {
   if(score === 21) return stay(dealerId, state);
   else if(!opponentCanHit && score > opponentScore) return stay(dealerId, state);
   else if(numberOfCardsThatBust > numberOfCardsThatDontBust) return stay(dealerId, state);
-  else return hit(dealerId, state);
+  else {
+    let newState = hit(dealerId, state);
+    if(!newState.players[0].canHit && newState.players[dealerId].total <= 21)
+      return dealer(dealerId, newState);
+    else return newState;
+  }
 }
 
 function hit(playerId, state){
