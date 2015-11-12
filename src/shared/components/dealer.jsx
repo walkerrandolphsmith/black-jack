@@ -9,8 +9,7 @@ export default class Dealer extends React.Component {
 
     return (
       <div id="dealer">
-        <Score score={player.total} />
-        <Hand hand={player.hand} isOpponent={false} />
+        <Hand hand={player.hand} isOpponent={true} />
       </div>
     )
   }
