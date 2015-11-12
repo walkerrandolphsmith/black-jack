@@ -2,7 +2,7 @@ import React from 'react';
 import Card from './card-front';
 import CardBack from './card-back';
 
-export default class Player extends React.Component {
+export default class Hand extends React.Component {
   render() {
     const { hand, isOpponent, dispatch } = this.props;
 
