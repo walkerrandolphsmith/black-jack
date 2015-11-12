@@ -60,15 +60,7 @@ function hit(playerId, state){
     total : score
   }
 
-  let players = [];
-  if(playerId === 0){
-    players.push(player);
-    players.push(state.players[1]);
-  }else{
-    players.push(state.players[0]);
-    players.push(player);
-  }
-
+  let players = generatePlayers(playerId, state, player);
   let activeGame = isGameActive(players);
 
   let winner = state.players.sort((x,y) => { return x.total < y.total; })[0];
@@ -89,15 +81,7 @@ function stay(playerId, state){
     total : state.players[playerId].total
   }
 
-  let players = [];
-  if(playerId === 0){
-    players.push(player);
-    players.push(state.players[1]);
-  }else{
-    players.push(state.players[0]);
-    players.push(player);
-  }
-
+  let players = generatePlayers(playerId, state, player);
   let activeGame = isGameActive(players);
 
   return {
@@ -106,6 +90,18 @@ function stay(playerId, state){
     activeGame: activeGame,
     winner: state.winner
   };
+}
+
+function generatePlayers(playerId, state, player){
+  let players = [];
+  if(playerId === 0){
+    players.push(player);
+    players.push(state.players[1]);
+  }else{
+    players.push(state.players[0]);
+    players.push(player);
+  }
+  return players;
 }
 
 function cartesianProduct(){
