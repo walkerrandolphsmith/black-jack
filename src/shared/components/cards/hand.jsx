@@ -6,8 +6,10 @@ export default class Hand extends React.Component {
   render() {
     const { hand, isOpponent, dispatch } = this.props;
 
-    let cards = hand.map((card, j) => {
-      return (isOpponent && j === 0) ? (<CardBack />) : (<Card key={j} id={j} suit={card.suit} rank={card.rank} />);
+    let cards = hand.map((card, key) => {
+      return (isOpponent && key === 0)
+        ? (<CardBack key={key} />)
+        : (<Card key={key} id={key} suit={card.suit} rank={card.rank} />);
     });
 
     return (
