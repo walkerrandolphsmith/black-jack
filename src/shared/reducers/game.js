@@ -68,7 +68,7 @@ function hit(playerId, state){
   let players = generatePlayers(playerId, state, player);
   let activeGame = isGameActive(players);
 
-  let winner = state.players.sort((x,y) => { return x.total < y.total; })[0];
+  let winner = determineWinner(state.players[0], state.players[1]);
 
   return {
     players: players,
@@ -131,4 +131,22 @@ function createPlayer(pid){
 
 function isGameActive(players){
   return !players.every(player => { return !player.canHit; });
+}
+
+function determineWinner(p1, p2){
+  let winner = null;
+  if(p1.total > 21){
+    if(p2.total <= 21){
+      winner = p2;
+    }else{
+      winner = p1.total < p2.total ? p1 : p2;
+    }
+  }else{
+    if(p2.total > 21){
+      winner = p1;
+    }else {
+      winner = p1.total < p2.total ? p2 : p1;
+    }
+  }
+  return winner;
 }
