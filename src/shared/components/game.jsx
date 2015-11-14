@@ -12,11 +12,20 @@ export default class Game extends React.Component {
   render() {
     const { game, dispatch } = this.props;
     const winner = game.activeGame ? "In Progress" : `Winner: ${game.winner.pid}`;
+
+    const playerStyle = {
+      height: '300'
+    }
+
     return (
       <div id="game">
         State: {winner}
-        <Player player={game.players[0]} {...bindActionCreators(MoveActions, dispatch)} />
-        <Dealer player={game.players[1]} {...bindActionCreators(MoveActions, dispatch)} />
+        <div className="player" style={playerStyle}>
+          <Player player={game.players[0]} {...bindActionCreators(MoveActions, dispatch)} />
+        </div>
+        <div className="player" style={playerStyle}>
+          <Dealer player={game.players[1]} {...bindActionCreators(MoveActions, dispatch)} />
+        </div>
       </div>
     );
   }
