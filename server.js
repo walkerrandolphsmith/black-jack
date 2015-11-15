@@ -32,10 +32,7 @@ app.use((request, response) => {
   const store = createStore(reducer);
 
   match({routes, location}, (err, redirectLocation, renderProps) => {
-    if(err){
-      console.error(err);
-      return response.status(500).end('Internal server error.');
-    }
+    if(err) return response.status(500).end('Internal server error.');
     if(!renderProps) return response.status(404).end('Not found.');
     const InitialComponent = (
       <Provider store={store}>
