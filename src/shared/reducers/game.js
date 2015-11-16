@@ -3,117 +3,13 @@ import _ from 'lodash';
 import cards from './../constants/deck';
 //const INITIAL_STATE = new Immutable.List();
 
-const deck = cartesianProduct(cards.SUITS, cards.RANKS);
-const playerOne = createPlayer(0);
-const playerTwo = createPlayer(1);
-
-const INITIAL_STATE = {
-  players: [playerOne, playerTwo],
-  deck: deck,
-  activeGame: true,
-  winner: false
-};
-
-export default function reducer(state = INITIAL_STATE, action) {
-  switch(action.type){
-    case 'HIT': return dealer(1, hit(0, state));
-    case 'STAY': return dealer(1, stay(0, state));
-  }
-  return state;
-}
-
-function dealer(dealerId, state) {
-  console.log("DEALER", dealerId, state);
-
-  //Determine to hit or stay
-  const score = state.players[dealerId].total;
-  const opponentScore = state.players[0].total;
-  const opponentCanHit = state.players[0].canHit;
-
-  const numberOfCardsThatBust = state.deck.reduce((x, y) => {
-    return (score + y > 21) ? x + 1 : x;
-  }, 0);
-
-  const numberOfCardsThatDontBust = state.deck.reduce((x, y) => {
-    return (score + y <= 21) ? x + 1 : x;
-  }, 0);
-
-  if(score === 21) return stay(dealerId, state);
-  else if(!opponentCanHit && score > opponentScore) return stay(dealerId, state);
-  else if(numberOfCardsThatBust > numberOfCardsThatDontBust) return stay(dealerId, state);
-  else {
-    let newState = hit(dealerId, state);
-    if(!newState.players[0].canHit && newState.players[dealerId].total <= 21)
-      return dealer(dealerId, newState);
-    else return newState;
-  }
-}
-
-function hit(playerId, state){
-
-  state.players.forEach(player => { state.deck = _.difference(state.deck, player.hand); });
-  let randomCard = _.sample(state.deck);
-
-  state.players[playerId].hand.push(randomCard);
-
-  let score = _.sum(state.players[playerId].hand, card => { return card.rank.value; });
-
-  let player = {
-    pid : playerId,
-    hand : state.players[playerId].hand,
-    canHit : score < 21,
-    total : score
-  }
-
-  let players = generatePlayers(playerId, state, player);
-  let activeGame = isGameActive(players);
-
-  let winner = determineWinner(state.players[0], state.players[1]);
-
-  return {
-    players: players,
-    deck: state.deck,
-    activeGame: activeGame,
-    winner: winner
-  }
-}
-
-function stay(playerId, state){
-  let player = {
-    pid : 0,
-    hand : state.players[0].hand,
-    canHit : (playerId === 0) ? false : state.players[0].canHit,
-    total : state.players[playerId].total
-  }
-
-  let players = generatePlayers(playerId, state, player);
-  let activeGame = isGameActive(players);
-
-  return {
-    players: players,
-    deck: state.deck,
-    activeGame: activeGame,
-    winner: state.winner
-  };
-}
-
-function generatePlayers(playerId, state, player){
-  let players = [];
-  if(playerId === 0){
-    players.push(player);
-    players.push(state.players[1]);
-  }else{
-    players.push(state.players[0]);
-    players.push(player);
-  }
-  return players;
-}
+const DEALER = 'dealer';
+const PLAYER = 'player';
 
 function cartesianProduct(){
   return _.reduce(arguments, (a, b) => {
       return _.flatten(_.map(a, x => {
           return _.map(b, (y, i) => {
-            //??
             return {suit: x['rank'], rank: y};
           });
       }), false);
@@ -129,8 +25,86 @@ function createPlayer(pid){
   };
 }
 
-function isGameActive(players){
-  return !players.every(player => { return !player.canHit; });
+const INITIAL_STATE = {
+  player: createPlayer(PLAYER),
+  dealer: createPlayer(DEALER),
+  deck: cartesianProduct(cards.SUITS, cards.RANKS),
+  activeGame: true,
+  winner: false
+};
+
+export default function reducer(state = INITIAL_STATE, action) {
+  switch(action.type){
+    case 'HIT': return dealer(hit(PLAYER, state));
+    case 'STAY': return dealer(stay(PLAYER, state));
+  }
+  return state;
+}
+
+function dealer(state) {
+  const score = state.dealer.total;
+
+  const bust = state.deck.reduce((x, y) => { return (score + y > 21) ? x + 1 : x; }, 0);
+  const noBust = state.deck.length - bust;
+
+  const opponentStayed = state.player.canHit;
+  const hasMaxed = score >= 21;
+  const hasAdvantage = !opponentStayed && score > state.player.total;
+  const hasBadOdds = bust > noBust;
+
+  if(hasMaxed || hasAdvantage || hasBadOdds){
+    return stay(DEALER, state);
+  }else {
+    let newState = hit(DEALER, state);
+    if(!opponentStayed && newState.dealer.total <= 21)
+      newState = dealer(newState);
+    return newState;
+  }
+}
+
+function hit(playerId, state){
+  let newDeck = _.difference(state.deck, state.player.hand);
+  newDeck = _.difference(newDeck, state.dealer.hand);
+
+  let newHand = _.union(state[playerId].hand, [_.sample(newDeck)]);
+  let newTotal = _.sum(newHand, card => { return card.rank.value; });
+  let newCanHit = state[playerId].canHit && newTotal < 21;
+
+  let player = {
+    pid : playerId,
+    hand : newHand,
+    canHit : newCanHit,
+    total : newTotal
+  }
+
+  return {
+    player: playerId === PLAYER ? player : state.player,
+    dealer: playerId === DEALER ? player : state.dealer,
+    deck: newDeck,
+    activeGame: isGameActive(playerId, state),
+    winner: determineWinner(state.player, state.dealer)
+  }
+}
+
+function stay(playerId, state){
+  let player = {
+    pid : playerId,
+    hand : state[playerId].hand,
+    canHit : false,
+    total : state[playerId].total
+  }
+
+  return {
+    player: playerId === PLAYER ? player : state.player,
+    dealer: playerId === DEALER ? player : state.dealer,
+    deck: state.deck,
+    activeGame: isGameActive(playerId, state),
+    winner: state.winner
+  };
+}
+
+function isGameActive(playerId, state){
+  return playerId === PLAYER ? state.dealer.canHit : state.player.canHit;
 }
 
 function determineWinner(p1, p2){
