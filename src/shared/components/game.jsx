@@ -20,7 +20,10 @@ export default class Game extends React.Component {
 
     return (
       <div id="game">
-        State: {winner}
+        <div className="header">
+          <h1> Black Jack </h1>
+          <span>{winner}</span>
+        </div>
         <div className="player" style={playerStyle}>
           <Player player={game.player} />
         </div>
