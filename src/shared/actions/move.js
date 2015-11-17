@@ -7,3 +7,7 @@ export function hit() {
 export function stay() {
   return { type: types.STAY }
 }
+
+export function reset(){
+  return { type: types.RESET }
+}

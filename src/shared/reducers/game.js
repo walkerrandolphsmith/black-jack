@@ -37,6 +37,7 @@ export default function reducer(state = INITIAL_STATE, action) {
   switch(action.type){
     case 'HIT': return dealer(hit(PLAYER, state));
     case 'STAY': return dealer(stay(PLAYER, state));
+    case 'RESET': return INITIAL_STATE;
   }
   return state;
 }
