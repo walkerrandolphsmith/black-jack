@@ -11,8 +11,8 @@ export default class Moves extends React.Component {
     let {canHit} = this.props;
     return (
       <div id="moves">
-        <button disabled={!canHit} onClick={this.stay}>Stay!</button>
-        <button disabled={!canHit} onClick={this.hit}>HIT!</button>
+        <button disabled={!canHit} onClick={this.props.stay}>Stay!</button>
+        <button disabled={!canHit} onClick={this.props.hit}>HIT!</button>
       </div>
     )
   }
