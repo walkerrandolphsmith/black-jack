@@ -9,7 +9,9 @@ export default class Score extends React.Component {
       textTransform: 'uppercase',
       fontSize: '3.5em',
       letterSpacing: '-.03em',
-      fontWeight: '800'
+      fontWeight: '800',
+      textAlign: 'center',
+      margin: '25px'
     }
 
     return (
