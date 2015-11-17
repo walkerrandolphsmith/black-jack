@@ -203,8 +203,8 @@
   text-align: center;
 }
 
-.player {
-  min-height: 100px;
+.hand {
+  min-height: 15em;
 }
 
 .header, .player, .footer {
