@@ -4,14 +4,14 @@ import Hand from './cards/hand';
 
 export default class Player extends React.Component {
   render() {
-    const { player } = this.props;
+    const { player, isOpponent } = this.props;
 
     let playerId = `player-${player.pid}`;
 
     return (
-      <div id="player">
+      <div id={playerId}>
         <Score score={player.total} />
-        <Hand hand={player.hand} isOpponent={false} />
+        <Hand hand={player.hand} isOpponent={isOpponent} />
       </div>
     )
   }

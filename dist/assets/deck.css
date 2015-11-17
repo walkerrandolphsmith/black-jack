@@ -199,6 +199,9 @@
   text-align: center;
 }
 
+.player {
+  min-height: 100px;
+}
 .header, .player, .footer {
   flex: 1 100%;
 }

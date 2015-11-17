@@ -1,7 +1,6 @@
 import React from 'react';
 import Deck from './cards/deck';
 import Player from './player';
-import Dealer from './dealer';
 import MovesView from './moves';
 import { bindActionCreators } from 'redux';
 import * as MoveActions from './../actions/move';
@@ -14,21 +13,17 @@ export default class Game extends React.Component {
     const { game, dispatch } = this.props;
     const winner = game.activeGame ? "In Progress" : `Winner: ${game.winner.pid}`;
 
-    const playerStyle = {
-      height: '300'
-    }
-
     return (
       <div id="game">
         <div className="header">
           <h1> Black Jack </h1>
           <span>{winner}</span>
         </div>
-        <div className="player" style={playerStyle}>
-          <Player player={game.player} />
+        <div className="player">
+          <Player player={game.player} isOpponent={false}/>
         </div>
-        <div className="player" style={playerStyle}>
-          <Dealer player={game.dealer} />
+        <div className="player">
+          <Player player={game.dealer} isOpponent={true} />
         </div>
         <div className="footer">
           <MovesView canHit={game.player.canHit} {...bindActionCreators(MoveActions, dispatch)} />
