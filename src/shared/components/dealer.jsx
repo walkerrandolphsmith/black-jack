@@ -3,7 +3,7 @@ import Hand from './cards/hand';
 
 export default class Dealer extends React.Component {
   render() {
-    const { player, dispatch } = this.props;
+    const { player } = this.props;
 
     return (
       <div id="dealer">

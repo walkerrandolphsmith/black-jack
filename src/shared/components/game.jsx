@@ -22,10 +22,10 @@ export default class Game extends React.Component {
       <div id="game">
         State: {winner}
         <div className="player" style={playerStyle}>
-          <Player player={game.player} {...bindActionCreators(MoveActions, dispatch)} />
+          <Player player={game.player} />
         </div>
         <div className="player" style={playerStyle}>
-          <Dealer player={game.dealer} {...bindActionCreators(MoveActions, dispatch)} />
+          <Dealer player={game.dealer} />
         </div>
         <div className="footer">
           <MovesView canHit={game.player.canHit} {...bindActionCreators(MoveActions, dispatch)} />
