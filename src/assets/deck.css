@@ -5,6 +5,9 @@
   font-weight: normal;
   font-style: normal;
 }
+.hand {
+  text-align: center;
+}
 .card {
   background-color: #fff;
   font-family: 'Suit-Regular', 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -15,10 +18,11 @@
   -moz-box-shadow: 0 0 5px rgba(0,0,0,0.5);
   -webkit-box-shadow: 0 0 5px rgba(0,0,0,0.5);
   box-shadow: 0 0 5px rgba(0,0,0,0.5);
-  float: left;
+  margin: 1.2em;
+  display: inline-block;
+  vertical-align: top;
   width: 16em;
   height: 22.4em;
-  margin: 0 1.2em 1.2em 0;
   position: relative;
   z-index: 2;
 }
@@ -197,6 +201,10 @@
 
 .header, .footer {
   text-align: center;
+}
+
+.player {
+  min-height: 100px;
 }
 
 .header, .player, .footer {
