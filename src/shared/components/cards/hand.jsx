@@ -13,7 +13,7 @@ export default class Hand extends React.Component {
     });
 
     return (
-      <div id="my-hand">
+      <div className="hand">
         {cards}
       </div>
     )
