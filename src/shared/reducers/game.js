@@ -78,12 +78,14 @@ function hit(playerId, state){
     total : newTotal
   }
 
+  let winner = playerId === PLAYER ? determineWinner(player, state.dealer) : determineWinner(state.player, player);
+
   return {
     player: playerId === PLAYER ? player : state.player,
     dealer: playerId === DEALER ? player : state.dealer,
     deck: newDeck,
     activeGame: isGameActive(playerId, state),
-    winner: determineWinner(state.player, state.dealer)
+    winner: winner
   }
 }
 
@@ -108,20 +110,17 @@ function isGameActive(playerId, state){
   return playerId === PLAYER ? state.dealer.canHit : state.player.canHit;
 }
 
-function determineWinner(p1, p2){
+function determineWinner(p, d){
   let winner = null;
-  if(p1.total > 21){
-    if(p2.total <= 21){
-      winner = p2;
-    }else{
-      winner = p1.total < p2.total ? p1 : p2;
-    }
-  }else{
-    if(p2.total > 21){
-      winner = p1;
-    }else {
-      winner = p1.total < p2.total ? p2 : p1;
-    }
-  }
+  if(p.total === 21 && d.total === 21)
+    winner = d;
+  if(p.total <= 21 && d.total >= 21)
+    winner = p;
+  else if(p.total >= 21 && d.total <= 21)
+    winner = d;
+  if(p.total > 21 && d.total > 21)
+    winner = p.total < d.total ? p : d;
+  else if(p.total < 21 && d.total < 21)
+    winner = p.total > d.total ? p : d;
   return winner;
 }
