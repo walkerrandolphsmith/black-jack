@@ -21,7 +21,8 @@ function createPlayer(pid){
     pid: pid,
     hand: [],
     canHit: true,
-    total: 0
+    total: 0,
+    score: 0
   };
 }
 
@@ -71,11 +72,14 @@ function hit(playerId, state){
   let newTotal = _.sum(newHand, card => { return card.rank.value; });
   let newCanHit = state[playerId].canHit && newTotal < 21;
 
+  let newScore = playerId === PLAYER ? newTotal : newTotal - newHand[0].rank.value;
+
   let player = {
     pid : playerId,
     hand : newHand,
     canHit : newCanHit,
-    total : newTotal
+    total : newTotal,
+    score: newScore
   }
 
   let winner = playerId === PLAYER ? determineWinner(player, state.dealer) : determineWinner(state.player, player);
@@ -94,7 +98,8 @@ function stay(playerId, state){
     pid : playerId,
     hand : state[playerId].hand,
     canHit : false,
-    total : state[playerId].total
+    total : state[playerId].total,
+    score: state[playerId].score
   }
 
   return {

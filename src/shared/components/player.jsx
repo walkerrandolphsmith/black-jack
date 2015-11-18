@@ -10,7 +10,7 @@ export default class Player extends React.Component {
 
     return (
       <div id={playerId}>
-        <Score score={player.total} />
+        <Score score={player.score} />
         <Hand hand={player.hand} isOpponent={isOpponent} />
       </div>
     )
