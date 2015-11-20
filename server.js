@@ -18,7 +18,7 @@ import {Provider} from 'react-redux';
 import * as reducers from './src/shared/reducers'
 
 let app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 var compiler = webpack(config)
 app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: config.output.publicPath }))
