@@ -6,7 +6,7 @@
   "scripts": {
     "start": "./node_modules/.bin/babel-node ./runner.js",
     "dev": "npm run assets & npm run start & webpack-dev-server --progress --color",
-    "build": "NODE_ENV=production webpack --progress --color -p --config webpack.prod.config.js",
+    "build": "NODE_ENV=production webpack --progress --color -p --config webpack.config.js",
     "assets": "cp -r ./src/assets/ ./dist/assets/"
   },
   "repository": {
@@ -50,5 +50,8 @@
     "webpack-dev-server": "^1.11.0",
     "webpack-dev-middleware": "^1.2.0",
     "webpack-hot-middleware": "^2.4.1"
+  },
+  "engines": {
+    "node": "4.1.1"
   }
 }
