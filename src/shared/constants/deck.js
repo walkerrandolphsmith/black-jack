@@ -25,7 +25,7 @@ const RANK = {
   ace: {
     name: 'ace',
     symbol: 'A',
-    value: 14
+    value: 1
   },
   two: {
     name: 'two',
@@ -75,17 +75,17 @@ const RANK = {
   jack: {
     name: 'jack',
     symbol: 'J',
-    value: 11
+    value: 10
   },
   queen: {
     name: 'queen',
     symbol: 'Q',
-    value: 12
+    value: 10
   },
   king: {
     name: 'king',
     symbol: 'K',
-    value: 13
+    value: 10
   }
 };
 
