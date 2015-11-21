@@ -117,15 +117,12 @@ function isGameActive(playerId, state){
 
 function determineWinner(p, d){
   let winner = null;
-  if(p.total === 21 && d.total === 21)
-    winner = d;
-  if(p.total <= 21 && d.total >= 21)
+  if(p.total <= 21 && d.total <= 21)
+    winner = p.total < d.total ? d : p;
+  else if(p.total <= 21 && d.total >= 21)
     winner = p;
-  else if(p.total >= 21 && d.total <= 21)
+  else{
     winner = d;
-  if(p.total > 21 && d.total > 21)
-    winner = p.total < d.total ? p : d;
-  else if(p.total < 21 && d.total < 21)
-    winner = p.total > d.total ? p : d;
+  }
   return winner;
 }
