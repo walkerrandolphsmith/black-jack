@@ -8,7 +8,7 @@ export default class CardFront extends React.Component {
 
     const name = `${rank.name} ${suit.name}`;
 
-    const inner = (rank.value > 10 && rank.value < 14) ? <FaceCard suit={suit} rank={rank} /> : <Card suit={suit} />;
+    const inner = (rank.symbol === 'J' || rank.symbol === 'Q' || rank.symbol === 'K') ? <FaceCard suit={suit} rank={rank} /> : <Card suit={suit} rank={rank} />;
 
     return (
       <div className="card" id={id}>
